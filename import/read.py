@@ -1,17 +1,20 @@
-# We are reading the data from the www2-ldap and store it in mi-ldap.py
+# We are reading the data from the www2-ldap and store it in mi-ldap.json
 
 from ldap3 import Server, Connection, ALL, SUBTREE
 import json
 
 # URL des öffentlichen LDAP-Servers
-ldap_server = 'ldap://home.mathematik.uni-freiburg.de'  # Beispiel für einen öffentlichen LDAP-Server
+LDAP_URI_local = 'ldap://localhost:389'  
+LDAP_URI_www2 = 'ldap://home.mathematik.uni-freiburg.de' 
+LDAP_URI_www3 = 'ldap://www3.mathematik.privat' 
+LDAP_URI = LDAP_URI_local
 
 # LDAP-Baum und Suchbasis für "People"
 search_base = 'ou=People,dc=home,dc=mathematik,dc=uni-freiburg,dc=de'  # Der Startpunkt für die LDAP-Suche
 search_filter = '(objectClass=*)'  # Beispielhafter Filter, um alle Personenobjekte zu suchen
 
 # Verbindung zum LDAP-Server ohne Authentifizierung herstellen (anonyme Bindung)
-server = Server(ldap_server, get_info=ALL)
+server = Server(LDAP_URI, get_info=ALL)
 conn = Connection(server, auto_bind=True)  # Keine Anmeldeinformationen erforderlich
 attributes = ['cn', 'sn', 'ou', 'eduPersonPrimaryAffiliation','mail', 'labeledURI', 'givenName', 'objectClass', 'eduPersonPrimaryAffiliation', 'street', 'telephoneNumber', 'roomNumber', 'personalTitle'] 
 

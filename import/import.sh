@@ -9,8 +9,7 @@ sudo dpkg-reconfigure slapd
 
 # de
 # uni-freiburg.de
-# cgibin-Passwort: siehe netrc
-# angeben
+# admin-Passwort setzen
 
 sudo systemctl status slapd
 # sollte running anzeigen

@@ -22,37 +22,4 @@ objectClass: top
 objectClass: organizationalUnit
 ou: Groups
 
-dn: cn=cgibin,dc=home,dc=mathematik,dc=uni-freiburg,dc=de
-objectClass: inetOrgPerson
-cn: cgibin
-sn: cgibin
-userPassword: {SSHA}4t/SOkb0L76crRGE2yt9t+Efl81fVg+m
-
-dn: cn=dummy,dc=home,dc=mathematik,dc=uni-freiburg,dc=de
-objectClass: inetOrgPerson
-cn: dummy
-sn: dummy
-
-dn: cn=system,ou=Groups,dc=home,dc=mathematik,dc=uni-freiburg,dc=de
-objectClass: top
-objectClass: groupOfUniqueNames
-cn: system
-uniqueMember: cn=dummy,ou=People,dc=home,dc=mathematik,dc=uni-freiburg,dc=de
-
-
-dn: cn=teaching,ou=Groups,dc=home,dc=mathematik,dc=uni-freiburg,dc=de
-objectClass: top
-objectClass: groupOfUniqueNames
-cn: teaching
-member: uid=testuser,ou=People,dc=home,dc=mathematik,dc=uni-freiburg,dc=de
-
-dn: cn=teaching,ou=Groups,dc=home,dc=mathematik,dc=uni-freiburg,dc=de
-objectClass: top
-objectClass: groupOfUniqueNames
-cn: teaching
-uniqueMember: cn=dummy,dc=home,dc=mathematik,dc=uni-freiburg,dc=de
-
-
-
-cn=cgibin,dc=home,dc=mathematik,dc=uni-freiburg,dc=de
 
