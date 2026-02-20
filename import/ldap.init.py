@@ -5,16 +5,28 @@ from ldap3.core.exceptions import LDAPException, LDAPEntryAlreadyExistsResult
 netrc = netrc.netrc()
 
 # LDAP_URI = "ldap://www3.mathematik.privat"
-LDAP_URI = "ldap://localhost:389"
+LDAP_URI_local = 'ldap://localhost:389'  
+LDAP_URI_www2 = 'ldap://home.mathematik.uni-freiburg.de' 
+LDAP_URI_www3 = 'ldap://www3.mathematik.privat' 
+LDAP_URI = LDAP_URI_local
+
 ldap_username, ldap_account, ldap_password = netrc.authenticators(LDAP_URI)
 print(ldap_username)
-abteilungen = ["PA", "D", "Di", "RM", "AM", "MSt", "ML"]
-BIND_DN = f"cn={ldap_username},dc=home,dc=mathematik,dc=uni-freiburg,dc=de"
-BIND_PW = ldap_password  # besser: aus ENV lesen
 
+abteilungen = ["PA", "D", "Di", "RM", "AM", "MSt", "ML"]
+
+netrc = netrc.netrc()
+ldap_username, ldap_account, ldap_password = netrc.authenticators(LDAP_URI)
+print(f"Username: {ldap_username}")
+BIND_DN = f"cn={ldap_username},dc=home,dc=mathematik,dc=uni-freiburg,dc=de"
+BIND_PW = ldap_password  
+
+# Die Einträge unterhalb dieser BASE_DNs sollen gelöscht werden
 BASE_DN = "dc=home,dc=mathematik,dc=uni-freiburg,dc=de"
 PEOPLE_DN = f"ou=People,{BASE_DN}"
 GROUPS_DN = f"ou=Groups,{BASE_DN}"
+
+server = Server(LDAP_URI)
 
 def ensure_add(conn, dn, object_classes, attributes):
     # Existenzcheck: BASE-Scope, keine Attribute anfordern
