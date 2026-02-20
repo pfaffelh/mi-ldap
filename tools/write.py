@@ -48,16 +48,25 @@ def insert_data():
 
     # Insert People
     for p in persons:
-        ok = conn.add(
-            dn=f"cn={str(p['_id'])},{GROUPS_DN}",
-            object_class=["top", "inetOrgPerson"],
-            attributes={
-                'sn': p.get('name', ""),
-                'givenName': p.get('vorname', ''),                  
-                'displayName': f"{p.get('name')}, {p.get('vorname')}", 
-                'mail': p.get('email1'),
-                'tel': p.get('tel1')
-            })
+        if p.get('name', "") != "" and p.get('vorname', '') != "":
+            dn = f"cn={str(p['_id'])},{PEOPLE_DN}"
+            attributes = {
+                    'cn' : str(p['_id']),
+                    'sn': p.get('name', ""),
+                    'givenName': p.get('vorname', ''),                  
+                    'displayName': f"{p.get('name')}, {p.get('vorname')}", 
+                    'mail': p.get('email1'),
+                    'telephoneNumber': p.get('tel1')
+                }
+            ok = conn.add(
+                dn=dn,
+                object_class=["top", "inetOrgPerson"],
+                attributes = attributes)
+            if not ok:
+                print(f"Error inserting {p.get('name')}, {p.get('vorname')}")
+                # print(attributes)
+                # print(dn)        
+                print(conn.result)
 
     # Insert groups
     for group, members in groups.items():
@@ -70,8 +79,12 @@ def insert_data():
                     "member": [f"cn={x},{PEOPLE_DN}" for x in members],
                 }
             )
+            if not ok:
+                print(f"Error inserting {group}")
+                print(conn.result)
 
 if __name__ == "__main__":
     insert_data()
 
-
+# Alle Einträge gibt es mit
+# ldapsearch -x -H ldap://localhost:389   -b "dc=home,dc=mathematik,dc=uni-freiburg,dc=de"   -s sub "(objectClass=*)"

@@ -21,24 +21,26 @@ PEOPLE_DN = f"ou=People,{BASE_DN}"
 GROUPS_DN = f"ou=Groups,{BASE_DN}"
 
 server = Server(LDAP_URI)
-for BASE_DN in [GROUPS_DN, PEOPLE_DN]:
-    conn = Connection(server, user=BIND_DN, password=BIND_PW, auto_bind=True)
 
-    # Alle Einträge unterhalb suchen
-    conn.search(
-        search_base=BASE_DN,
-        search_filter="(objectClass=*)",
-        search_scope=SUBTREE
-    )
+def delete():
+    for BASE_DN in [GROUPS_DN, PEOPLE_DN]:
+        conn = Connection(server, user=BIND_DN, password=BIND_PW, auto_bind=True)
 
-    # DNs sammeln
-    dns = [entry.entry_dn for entry in conn.entries if entry.entry_dn != BASE_DN]
+        # Alle Einträge unterhalb suchen
+        conn.search(
+            search_base=BASE_DN,
+            search_filter="(objectClass=*)",
+            search_scope=SUBTREE
+        )
 
-    # Tiefste Einträge zuerst löschen
-    for dn in sorted(dns, key=lambda x: x.count(","), reverse=True):
-        print("Lösche:", dn)
-        conn.delete(dn)
+        # DNs sammeln
+        dns = [entry.entry_dn for entry in conn.entries if entry.entry_dn != BASE_DN]
 
-print("Alles unterhalb People, Groups gelöscht!.")
+        # Tiefste Einträge zuerst löschen
+        for dn in sorted(dns, key=lambda x: x.count(","), reverse=True):
+            print("Lösche:", dn)
+            conn.delete(dn)
+
+    print("Alles unterhalb People, Groups gelöscht!.")
 
 

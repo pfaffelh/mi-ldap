@@ -17,7 +17,7 @@ sudo systemctl status slapd
 ldapsearch -x -LLL -H ldap://localhost -b dc=uni-freiburg,dc=de
 # ist noch leer
 
-# sudo dpkg-reconfigure slapd
+sudo dpkg-reconfigure slapd
 
 # Hier wird das base.ldif geladen
 # admin-Passwort aus netrc

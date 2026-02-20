@@ -16,7 +16,11 @@ search_filter = '(objectClass=*)'  # Beispielhafter Filter, um alle Personenobje
 # Verbindung zum LDAP-Server ohne Authentifizierung herstellen (anonyme Bindung)
 server = Server(LDAP_URI, get_info=ALL)
 conn = Connection(server, auto_bind=True)  # Keine Anmeldeinformationen erforderlich
-attributes = ['cn', 'sn', 'ou', 'eduPersonPrimaryAffiliation','mail', 'labeledURI', 'givenName', 'objectClass', 'eduPersonPrimaryAffiliation', 'street', 'telephoneNumber', 'roomNumber', 'personalTitle'] 
+if LDAP_URI == LDAP_URI_www2:
+    attributes = ['cn', 'sn', 'ou', 'eduPersonPrimaryAffiliation','mail', 'labeledURI', 'givenName', 'objectClass', 'eduPersonPrimaryAffiliation', 'street', 'telephoneNumber', 'roomNumber', 'personalTitle'] 
+if LDAP_URI == LDAP_URI_local:
+    attributes = ['cn', 'sn', 'mail', 'givenName', 'objectClass', 'telephoneNumber'] 
+
 
 # Suche im LDAP-Baum durchführen
 conn.search(search_base, search_filter, search_scope=SUBTREE, attributes=attributes)
