@@ -28,8 +28,7 @@ for BASE_DN in [GROUPS_DN, PEOPLE_DN]:
     conn.search(
         search_base=BASE_DN,
         search_filter="(objectClass=*)",
-        search_scope=SUBTREE,
-        attributes=["dn"]
+        search_scope=SUBTREE
     )
 
     # DNs sammeln
