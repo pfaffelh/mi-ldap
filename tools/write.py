@@ -12,7 +12,7 @@ percode = mongo_db["personencode"]
 percodekategorie = mongo_db["personencodekategorie"]
 
 try:
-    persons = list(per.find({"ldap" : True, "$or": [
+    persons = list(per.find({"$or": [
                     {"ausstiegsdatum": None},
                     {"ausstiegsdatum": {"$gt": datetime.datetime.now()}}
                 ]}))
