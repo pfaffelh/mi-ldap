@@ -40,7 +40,7 @@ for item in data:
 # eduPersonAffiliation -> status
 
 for item in data:
-        p = per.find_one({"name" : item.get("sn")})
+        p = per.find_one({"name" : item.get("sn"), "vorname" : item["givenName"]})
         if p:
             update = {}
             if p["raum1"] == "" and item.get("roomNumber", "") != "":
@@ -91,15 +91,16 @@ for item in data:
                 })
             j = j + 1
         if item.get("ou") in abteilungs_id.keys():
-            per.update_one({"name" : item["sn"]}, {"$push" : {"code" : abteilungs_id[item.get("ou")]}})
+            per.update_one({"name" : item["sn"], "vorname" : item["givenName"]}, {"$addToSet" : {"code" : abteilungs_id[item.get("ou")]}})
         aff = [item.get("eduPersonPrimaryAffiliation")] + (item.get("eduPersonAffiliation") if isinstance(item.get("eduPersonAffiliation"), list) else [item.get("eduPersonAffiliation")])
         for s in [x for x in statusgruppe_id.keys() if x in aff]:
             per.update_one(
                 {
+                    "vorname" : item["givenName"],
                     "name" : item["sn"]
                 }, 
                 {   
-                    "$push" : {
+                    "$addToSet" : {
                         "code" : statusgruppe_id[s]
                     }
                 }
