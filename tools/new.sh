@@ -29,12 +29,14 @@ sudo ldapmodify -Y EXTERNAL -H ldapi:/// -f write.ldif
 
 # 2) Read ldap from www2 and store the result in mi-ldap.json
 
-
-
-
-
 # Create groups
 python3 ldap.init.py 
 
 # Der Rest passiert in python
+
+python3 tools/write.py
+
+#Hier eine LDAP-Abfrage für alle People
+
+
 

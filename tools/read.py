@@ -19,7 +19,7 @@ conn = Connection(server, auto_bind=True)  # Keine Anmeldeinformationen erforder
 if LDAP_URI == LDAP_URI_www2:
     attributes = ['cn', 'sn', 'ou', 'eduPersonPrimaryAffiliation','mail', 'labeledURI', 'givenName', 'objectClass', 'eduPersonPrimaryAffiliation', 'street', 'telephoneNumber', 'roomNumber', 'personalTitle'] 
 if LDAP_URI == LDAP_URI_local:
-    attributes = ['cn', 'sn', 'mail', 'givenName', 'objectClass', 'telephoneNumber'] 
+    attributes = ['cn', 'sn', 'mail', 'givenName', 'objectClass', 'telephoneNumber', "member"] 
 
 
 # Suche im LDAP-Baum durchführen
@@ -41,3 +41,5 @@ print(result_list)
 
 with open('mi-ldap.json', 'w') as json_file:
     json.dump(result_list, json_file, indent=4)
+
+

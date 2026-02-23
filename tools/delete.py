@@ -7,7 +7,7 @@ import netrc
 LDAP_URI_local = 'ldap://localhost:389'  
 LDAP_URI_www2 = 'ldap://home.mathematik.uni-freiburg.de' 
 LDAP_URI_www3 = 'ldap://www3.mathematik.privat' 
-LDAP_URI = LDAP_URI_local
+LDAP_URI = LDAP_URI_www3
 
 netrc = netrc.netrc()
 ldap_username, ldap_account, ldap_password = netrc.authenticators(LDAP_URI)
@@ -18,12 +18,14 @@ BIND_PW = ldap_password
 # Die Einträge unterhalb dieser BASE_DNs sollen gelöscht werden
 BASE_DN = "dc=home,dc=mathematik,dc=uni-freiburg,dc=de"
 PEOPLE_DN = f"ou=People,{BASE_DN}"
-GROUPS_DN = f"ou=Groups,{BASE_DN}"
+#GROUPS_DN = f"ou=Groups,ou=People,{BASE_DN}"
+#GROUPS_DN = f"ou=Groups,{BASE_DN}"
 
 server = Server(LDAP_URI)
 
 def delete():
-    for BASE_DN in [GROUPS_DN, PEOPLE_DN]:
+    #for BASE_DN in [GROUPS_DN, PEOPLE_DN]:
+    for BASE_DN in [PEOPLE_DN]:
         conn = Connection(server, user=BIND_DN, password=BIND_PW, auto_bind=True)
 
         # Alle Einträge unterhalb suchen
@@ -41,6 +43,8 @@ def delete():
             print("Lösche:", dn)
             conn.delete(dn)
 
-    print("Alles unterhalb People, Groups gelöscht!.")
+#    print("Alles unterhalb People, Groups gelöscht!.")
+    print("Alles unterhalb People gelöscht!.")
 
 
+delete()

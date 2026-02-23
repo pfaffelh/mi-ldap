@@ -68,10 +68,10 @@ def main():
         ensure_add(
             conn,
             abteilung_dn,
-            ["top", "groupOfUniqueNames"],
+            ["top", "groupOfNames"],
             {
                 "cn": a,
-                "uniqueMember": [f"cn=dummy,{BASE_DN}"],  # Dummy (Pflichtattribut)
+                "Member": [f"cn=dummy,{BASE_DN}"],  # Dummy (Pflichtattribut)
             }
         )
 
