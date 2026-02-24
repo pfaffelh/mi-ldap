@@ -48,6 +48,7 @@ def insert_data():
         # print(p)
         if p.get('name', "") != "" and p.get('vorname', '') != "":
             dn = f"cn={str(p['_id'])},{PEOPLE_DN}"
+            #print(p.get('tel1', ''))
             attributes = {
                     'cn' : str(p['_id']),
                     'sn': p.get('name', ""),
@@ -55,6 +56,10 @@ def insert_data():
                     'displayName': f"{p.get('name')}, {p.get('vorname')}", 
                     'mail': p.get('email1')
                 }
+            if p["tel1"] != "":
+                p["telephoneNumber"] = p.get('tel1', '')
+            if p["tel2"] != "":
+                p["homePhone"] = p.get('tel2', '')
             if p['groups'] != []:
                 attributes["employeeType"] = p['groups']
             ok = conn.add(
