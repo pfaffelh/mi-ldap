@@ -57,9 +57,9 @@ def insert_data():
                     'mail': p.get('email1')
                 }
             if p["tel1"] != "":
-                p["telephoneNumber"] = p.get('tel1', '')
+                attributes["telephoneNumber"] = p.get('tel1', '')
             if p["tel2"] != "":
-                p["homePhone"] = p.get('tel2', '')
+                attributes["homePhone"] = p.get('tel2', '')
             if p['groups'] != []:
                 attributes["employeeType"] = p['groups']
             ok = conn.add(
