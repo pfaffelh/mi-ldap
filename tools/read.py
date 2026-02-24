@@ -7,7 +7,7 @@ import json
 LDAP_URI_local = 'ldap://localhost:389'  
 LDAP_URI_www2 = 'ldap://home.mathematik.uni-freiburg.de' 
 LDAP_URI_www3 = 'ldap://www3.mathematik.privat' 
-LDAP_URI = LDAP_URI_www3
+LDAP_URI = LDAP_URI_www2
 
 # LDAP-Baum und Suchbasis für "People"
 search_base = 'ou=People,dc=home,dc=mathematik,dc=uni-freiburg,dc=de'  # Der Startpunkt für die LDAP-Suche

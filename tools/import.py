@@ -39,6 +39,10 @@ for item in data:
 # ou -> abteilung
 # eduPersonAffiliation -> status
 
+# Telefonnummern löschen
+per.update_many({}, {"$set": {"tel1" : "", "tel2" : ""}})
+per.update_many({}, {"$set": {"email1" : "", "email2" : ""}})
+
 for item in data:
         p = per.find_one({"name" : item.get("sn"), "vorname" : item["givenName"]})
         if p:
@@ -49,14 +53,19 @@ for item in data:
                 update["gebaeude1"] = E1 if item.get("street") == "E1" else HH10
             if p["url"] == "" and item.get("labeledURI", "") != "":
                 update["url"] = item.get("labeledURI", "")
+            if p["email1"] != "" and p["email2"] == "" and item.get("mail", "") != "":
+                if item.get("mail", "") != p["email1"]:
+                    update["email2"] = item.get("mail", "")
             if p["email1"] == "" and item.get("mail", "") != "":
                 update["email1"] = item.get("mail", "")
+            if p["tel1"] != "" and p["tel2"] == "" and item.get("telephoneNumber", "") != "":
+                if item.get("telephoneNumber", "") != p["tel1"]:
+                    update["tel2"] = f"{item.get('telephoneNumber')}"
             if p["tel1"] == "" and item.get("telephoneNumber", "") != "":
-                update["tel1"] = f"+49 761 - 203 {item.get('telephoneNumber')}"
+                update["tel1"] = f"{item.get('telephoneNumber')}"
             if p["titel"] == "" and item.get("personalTitle", "") not in ["", "M.Sc.", "MSc.", "M.Sc. ", "Dipl.-Math.", "B.A.", "Dipl.-Math."]:
                 update["titel"] = item.get("personalTitle", "")
-            update["ldap"] = True 
-            per.update_one({ "name" : item.get("sn")}, {"$set" : update })
+            per.update_one({ "name" : item.get("sn"), "vorname" : item["givenName"]}, {"$set" : update })
         else:
 #        "required": ["name", "name_en", "vorname", "name_prefix", "titel", "kennung", "rang", "tel1", "email1", "raum1", "gebaeude1", "tel2", "email2", "raum2", "gebaeude2", "sichtbar", "hp_sichtbar", "einstiegsdatum", "ausstiegsdatum", "semester", "code", "veranstaltung", "kommentar"],
             per.insert_one(
@@ -68,7 +77,7 @@ for item in data:
                     "titel": item.get("personalTitle") if item.get("personalTitle") not in [None, "M.Sc.", "MSc.", "M.Sc. ", "Dipl.-Math.", "B.A.", "Dipl.-Math."] else "",
                     "kennung" : "", 
                     "rang" : 200 + j,
-                    "tel1" : f"+49 761 - 203 {item.get('telephoneNumber')}" if item.get('telephoneNumber') is not None else "",
+                    "tel1" : f"{item.get('telephoneNumber')}" if item.get('telephoneNumber') is not None else "",
                     "email1" : item.get("mail") if item.get("mail") is not None else "",
                     "raum1" : item.get("roomNumber", ""),
                     "gebaeude1": l if item.get("street", "") == "" else (E1 if item.get("street") == "E1" else HH10), 
@@ -82,6 +91,10 @@ for item in data:
                     "ldap" : True,
                     "einstiegsdatum" : None, 
                     "ausstiegsdatum" : None,
+                    "gender" : "kA", 
+                    "vorgesetzte" : [], 
+                    "abwesend_start" : None, 
+                    "abwesend_ende" : None,
                     "semester" : [],
                     "code" : [], 
                     "veranstaltung" : [],
