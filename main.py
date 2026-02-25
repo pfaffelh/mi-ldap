@@ -80,32 +80,33 @@ def insert_data():
     for p in persons:
         # print(p)
         if p.get('name', "") != "" and p.get('vorname', '') != "":
-            dn = f"cn={str(p['_id'])},{PEOPLE_DN}"
-            #print(p.get('tel1', ''))
-            attributes = {
-                    'cn' : str(p['_id']),
-                    'sn': p.get('name', ""),
-                    'givenName': p.get('vorname', ''),                  
-                    'displayName': f"{p.get('name')}, {p.get('vorname')}", 
-                    'mail': p.get('email1')
-                }
-            if p["tel1"] != "":
-                attributes["telephoneNumber"] = p.get('tel1', '')
-            if p["tel2"] != "":
-                attributes["homePhone"] = p.get('tel2', '')
-            if p['groups'] != []:
-                attributes["employeeType"] = p['groups']
-            ok = conn.add(
-                dn=dn,
-                object_class=["top", "inetOrgPerson"],
-                attributes = attributes)
-            if ok:
-                print(f"Neuer Eintrag: {p.get('name')}, {p.get('vorname')}")
-            else:
-                print(f"Error inserting {p.get('name')}, {p.get('vorname')}")
-                #print(attributes)
-                #print(dn)        
-                #print(conn.result)
+            if p.get("email1", "") or p.get("email2", "") or p.get("tel1", "") or p.get("tel21", ""):
+                dn = f"cn={str(p['_id'])},{PEOPLE_DN}"
+                #print(p.get('tel1', ''))
+                attributes = {
+                        'cn' : str(p['_id']),
+                        'sn': p.get('name', ""),
+                        'givenName': p.get('vorname', ''),                  
+                        'displayName': f"{p.get('name')}, {p.get('vorname')}", 
+                        'mail': p.get('email1')
+                    }
+                if p["tel1"] != "":
+                    attributes["telephoneNumber"] = p.get('tel1', '')
+                if p["tel2"] != "":
+                    attributes["homePhone"] = p.get('tel2', '')
+                if p['groups'] != []:
+                    attributes["employeeType"] = p['groups']
+                ok = conn.add(
+                    dn=dn,
+                    object_class=["top", "inetOrgPerson"],
+                    attributes = attributes)
+                if ok:
+                    print(f"Neuer Eintrag: {p.get('name')}, {p.get('vorname')}")
+                else:
+                    print(f"Error inserting {p.get('name')}, {p.get('vorname')}")
+                    #print(attributes)
+                    #print(dn)        
+                    #print(conn.result)
 
 if __name__ == "__main__":
     delete()
