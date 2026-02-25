@@ -1,8 +1,14 @@
 # We write data from the MongoDB into the LDAP
 
-import netrc, pymongo, datetime
+import netrc, pymongo, datetime, argparse
 from ldap3 import Server, Connection, ALL, SUBTREE, BASE
 from ldap3.core.exceptions import LDAPException, LDAPEntryAlreadyExistsResult
+
+# Keine Ausgabe falls --quiet
+parser = argparse.ArgumentParser()
+parser.add_argument("--quiet", action="store_true")
+args = parser.parse_args()
+print = (lambda *a, **k: None) if args.quiet else print
 
 # This is the MongoDB
 cluster = pymongo.MongoClient("mongodb://127.0.0.1:27017")
