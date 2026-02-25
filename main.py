@@ -7,7 +7,7 @@ from ldap3.core.exceptions import LDAPException, LDAPEntryAlreadyExistsResult
 # Keine Ausgabe falls --quiet
 parser = argparse.ArgumentParser()
 parser.add_argument("--quiet", action="store_true", help="Unterdrücke Ausgaben")
-parser.add_argument("--local", action="store_true", help="Benutze lokale Datenbank")
+parser.add_argument("--local", action="store_true", help="Überschreibe LDAP-Datenbank auf ldap://localhost:389; Andernfalls wird die auf ldap://www3.mathematik.privat überschrieben.")
 args = parser.parse_args()
 
 print = (lambda *a, **k: None) if args.quiet else print
