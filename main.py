@@ -84,7 +84,8 @@ def insert_data():
                 dn = f"cn={str(p['_id'])},{PEOPLE_DN}"
                 #print(p.get('tel1', ''))
                 attributes = {
-                        'cn' : str(p['_id']),
+                        #'cn' : str(p['_id']),
+                        'cn' : f"{p.get('name')}, {p.get('vorname')}",
                         'sn': p.get('name', ""),
                         'givenName': p.get('vorname', ''),                  
                         'displayName': f"{p.get('name')}, {p.get('vorname')}", 
