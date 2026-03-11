@@ -15,7 +15,8 @@ print = (lambda *a, **k: None) if args.quiet else print
 if args.local:
     LDAP_URI = 'ldap://localhost:389'
 else:
-    LDAP_URI = 'ldap://www3.mathematik.privat' 
+    # LDAP_URI = 'ldap://www3.mathematik.privat' 
+    LDAP_URI = 'ldaps://home.mathematik.privat' 
 
 # LDAP_URI_www2 = 'ldap://home.mathematik.uni-freiburg.de' 
 
